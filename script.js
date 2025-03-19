@@ -9,13 +9,13 @@ const gameBoard = (() => {
 	const board = [];
 	// represents each cell in the game board
 	function cell() {
-		let value = "0";
-		addMark = (mark) => (value = mark);
-		getValue = () => value;
+		let mark = "0";
+		addMark = (playerMark) => (mark = playerMark);
+		getMark = () => mark;
 
 		return {
 			addMark,
-			getValue,
+			getMark,
 		};
 	}
 
@@ -31,7 +31,7 @@ const gameBoard = (() => {
 	// adds mark of they player to the selected cell
 	const markCell = (row, column, playerMark) => {
 		const targetCell = board[row - 1][column - 1];
-		const isCellAvailable = targetCell.getValue() === "0" ? true : false;
+		const isCellAvailable = targetCell.getMark() === "0" ? true : false;
 		if (isCellAvailable) {
 			targetCell.addMark(playerMark);
 			return isCellAvailable;
@@ -49,7 +49,7 @@ const gameBoard = (() => {
 
 	const printBoard = () => {
 		for (let row = 0; row < rows; row++) {
-			let rowValues = board[row].map((rowCell) => rowCell.getValue());
+			let rowValues = board[row].map((rowCell) => rowCell.getMark());
 			console.log(rowValues);
 		}
 	};
@@ -121,7 +121,6 @@ gameBoard.printBoard();
 console.log("X won. Resetting board");
 gameBoard.resetBoard();
 gameBoard.printBoard();
-
 
 // // controls the display of board in user interface
 // (function screenController() {})();
