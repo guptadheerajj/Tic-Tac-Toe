@@ -46,6 +46,27 @@ const gameBoard = (() => {
 	};
 })();
 
+// control the flow of the game, manage the turns of players and check for wins
+const gameController = (function () {
+	function player(name, mark, turn) {
+		let score = 0;
+		const getScore = () => score;
+		const incrementScore = () => {
+			score++;
+		};
+		const toggleTurn = () => {
+			turn = !turn;
+		};
+		const getTurn = () => turn;
+		return { name, mark, getScore, incrementScore, toggleTurn, getTurn };
+	}
+	return {player}
+})();
+
+const players = [
+	gameController.player("Dheeraj", "X", true),
+	gameController.player("Bot", "O", false),
+];
 gameBoard.printBoard();
 gameBoard.markCell(1, 1, { mark: "X" });
 gameBoard.printBoard();
@@ -61,9 +82,6 @@ gameBoard.markCell(2, 2, { mark: "O" });
 gameBoard.printBoard();
 gameBoard.markCell(2, 1, { mark: "X" });
 gameBoard.printBoard();
-
-// control the flow of the game, manage the turns of players and check for wins
-function gameController() {}
 
 // controls the display of board in user interface
 (function screenController() {})();
