@@ -82,11 +82,85 @@ const gameController = (function () {
 		return { name, mark, getScore, incrementScore, toggleTurn, getTurn };
 	}
 
+	// if markCount is 3 then the player wins the game
+	function checkWinForRows(playerMark) {
+		const board = gameBoard.getBoard();
+		for (let row = 0; row < 3; row++) {
+			let markCount = 0;
+			for (let column = 0; column < 3; column++) {
+				if (board[row][column].getMark() === playerMark) markCount++;
+			}
+			if (markCount === 3) return true;
+		}
+	}
+
+	function checkWinForColumns(playerMark) {
+		const board = gameBoard.getBoard();
+		for (let row = 0; row < 3; row++) {
+			let markCount = 0;
+			for (let column = 0; column < 3; column++) {
+				if (board[column][row].getMark() === playerMark) markCount++;
+			}
+			if (markCount === 3) return true;
+		}
+	}
+
+	function checkIndividualDiagonal(diagonal, playerMark) {
+		const markCount = diagonal.reduce((count, mark) => {
+			if (mark === playerMark) count++;
+			return count;
+		}, 0);
+		if (markCount === 3) return true;
+		return false;
+	}
+
+	function checkWinForDiagonals(playerMark) {
+		const board = gameBoard.getBoard();
+
+		// check for left diagonal
+		const leftDiagonal = [
+			board[0][0].getMark(),
+			board[1][1].getMark(),
+			board[2][2].getMark(),
+		];
+		if (checkIndividualDiagonal(leftDiagonal, playerMark)) return true;
+
+		// check for right diagonal
+		const rightDiagonal = [
+			board[0][2].getMark(),
+			board[1][1].getMark(),
+			board[2][0].getMark(),
+		];
+		if (checkIndividualDiagonal(rightDiagonal, playerMark)) return true;
+
+		return false;
+	}
+
+	function checkWinCondition(playerMark) {
+		// check for rows
+		if (checkWinForRows(playerMark)) return true;
+
+		// check for columns
+		if (checkWinForColumns(playerMark)) return true;
+
+		// // check for diagonals
+		if (checkWinForDiagonals(playerMark)) return true;
+
+		return false;
+	}
+
 	function playRound(row, column) {
 		const playerTurn = players[0].getTurn() ? players[0] : players[1];
 		const markStatus = gameBoard.markCell(row, column, playerTurn.mark);
 
 		if (markStatus) {
+			const isWin = checkWinCondition(playerTurn.mark);
+			if (isWin) {
+				console.log(
+					`Player with name ${playerTurn.name} and mark ${playerTurn.mark} WON the game.`
+				);
+				return;
+			}
 			players.map((eachPlayer) => {
 				eachPlayer.toggleTurn();
 			});
@@ -110,17 +184,20 @@ console.log("_____________A played_____________");
 gameController.playRound(1, 2);
 gameBoard.printBoard();
 console.log("_____________X played_____________");
+gameController.playRound(2, 1);
+gameBoard.printBoard();
+console.log("_____________A played_____________");
+gameController.playRound(2, 2);
+gameBoard.printBoard();
+console.log("_____________X played_____________");
 gameController.playRound(3, 3);
 gameBoard.printBoard();
 console.log("_____________A played_____________");
-gameController.playRound(2, 1);
+gameController.playRound(3, 2);
 gameBoard.printBoard();
-console.log("_____________X played_____________");
-gameController.playRound(2, 2);
-gameBoard.printBoard();
-console.log("X won. Resetting board");
+console.log("Resetting board");
 gameBoard.resetBoard();
 gameBoard.printBoard();
 
-// // controls the display of board in user interface
+// controls the display of board in user interface/webpage and user interaction through DOM
 // (function screenController() {})();
