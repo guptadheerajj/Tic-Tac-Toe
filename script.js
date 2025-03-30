@@ -1,3 +1,5 @@
+const players = [];
+
 /*
  ** gameBoard module represents the state of the board, like
  ** which cell has which player's Mark
@@ -68,9 +70,11 @@ const gameBoard = (() => {
  ** check for win condition
  */
 const gameController = (function () {
+	let numberOfRoundsPlayed = 0;
 	// player factory function with score and turn as private variables
 	function player(name, mark, turn) {
 		let score = 0;
+		let turnPlayed = 0;
 		const getScore = () => score;
 		const incrementScore = () => {
 			score++;
@@ -79,7 +83,15 @@ const gameController = (function () {
 			turn = !turn;
 		};
 		const getTurn = () => turn;
-		return { name, mark, getScore, incrementScore, toggleTurn, getTurn };
+		return {
+			name,
+			mark,
+			turnPlayed,
+			getScore,
+			incrementScore,
+			toggleTurn,
+			getTurn,
+		};
 	}
 
 	// if markCount is 3 then the player wins the game
@@ -137,16 +149,22 @@ const gameController = (function () {
 	}
 
 	function checkWinCondition(playerMark) {
-		// check for rows
 		if (checkWinForRows(playerMark)) return true;
-
-		// check for columns
 		if (checkWinForColumns(playerMark)) return true;
-
-		// // check for diagonals
 		if (checkWinForDiagonals(playerMark)) return true;
 
 		return false;
+	}
+
+	function setFirstMove() {
+		if (numberOfRoundsPlayed % 2 === 0) {
+			if (!players[0].getTurn()) {
+				players[0].toggleTurn();
+			}
+		}
+		if (!players[1].getTurn()) {
+			players[1].toggleTurn();
+		}
 	}
 
 	function playRound(row, column) {
@@ -154,50 +172,82 @@ const gameController = (function () {
 		const markStatus = gameBoard.markCell(row, column, playerTurn.mark);
 
 		if (markStatus) {
+			playerTurn.turnPlayed++;
 			const isWin = checkWinCondition(playerTurn.mark);
 			if (isWin) {
+				numberOfRoundsPlayed++;
+				setFirstMove();
+				playerTurn.incrementScore();
+				gameBoard.resetBoard();
 				console.log(
 					`Player with name ${playerTurn.name} and mark ${playerTurn.mark} WON the game.`
 				);
-				return;
+				return "win";
+			}
+			if (playerTurn.turnPlayed === 5) {
+				numberOfRoundsPlayed++;
+				setFirstMove();
+				gameBoard.resetBoard();
+				console.log("It's a Draw!");
+				return "draw";
 			}
 			players.map((eachPlayer) => {
 				eachPlayer.toggleTurn();
 			});
 		}
+		return "play";
 	}
 
 	return { player, playRound };
 })();
 
-const players = [
-	gameController.player("Dheeraj", "X", true),
-	gameController.player("Bot", "A", false),
-];
+document.addEventListener("DOMContentLoaded", () => {
+	console.log("ContentLoaded");
+	(function screenController() {
+		let name = prompt("Enter player1(X) name: \n player1 starts with X");
+		players.push(gameController.player(name, "X", true));
+		players.push;
+		name = prompt("Enter player2(O) name: ");
+		players.push(gameController.player(name, "O", false));
+		console.log(players);
 
-console.log("_____________Game Started_____________");
-gameBoard.printBoard();
-console.log("_____________X played_____________");
-gameController.playRound(1, 1);
-gameBoard.printBoard();
-console.log("_____________A played_____________");
-gameController.playRound(1, 2);
-gameBoard.printBoard();
-console.log("_____________X played_____________");
-gameController.playRound(2, 1);
-gameBoard.printBoard();
-console.log("_____________A played_____________");
-gameController.playRound(2, 2);
-gameBoard.printBoard();
-console.log("_____________X played_____________");
-gameController.playRound(3, 3);
-gameBoard.printBoard();
-console.log("_____________A played_____________");
-gameController.playRound(3, 2);
-gameBoard.printBoard();
-console.log("Resetting board");
-gameBoard.resetBoard();
-gameBoard.printBoard();
+		while (true) {
+			let row = prompt("Enter row: ");
+			let column = prompt("Enter column: ");
+			let roundStatus = gameController.playRound(row, column);
+			gameBoard.printBoard();
+			if (roundStatus === "win" || roundStatus === "draw") {
+				console.log(`${players[0].name} score: ${players[0].getScore()}`);
+				console.log(`${players[1].name} score: ${players[1].getScore()}`);
+				break;
+			}
+		}
+	})();
+});
+
+// console.log("_____________Game Started_____________");
+// gameBoard.printBoard();
+// console.log("_____________X played_____________");
+// gameController.playRound(1, 1);
+// gameBoard.printBoard();
+// console.log("_____________A played_____________");
+// gameController.playRound(1, 2);
+// gameBoard.printBoard();
+// console.log("_____________X played_____________");
+// gameController.playRound(2, 1);
+// gameBoard.printBoard();
+// console.log("_____________A played_____________");
+// gameController.playRound(2, 2);
+// gameBoard.printBoard();
+// console.log("_____________X played_____________");
+// gameController.playRound(3, 3);
+// gameBoard.printBoard();
+// console.log("_____________A played_____________");
+// gameController.playRound(3, 2);
+// gameBoard.printBoard();
+// console.log("Resetting board");
+// gameBoard.resetBoard();
+// gameBoard.printBoard();
 
 // controls the display of board in user interface/webpage and user interaction through DOM
 // (function screenController() {})();
