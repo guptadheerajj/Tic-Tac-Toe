@@ -94,6 +94,11 @@ const gameController = (function () {
 		};
 	}
 
+	function addPlayer(name, mark, turn) {
+		const ply = player(name, mark, turn);
+		players.push(ply);
+	}
+
 	// if markCount is 3 then the player wins the game
 	function checkWinForRows(playerMark) {
 		const board = gameBoard.getBoard();
@@ -198,32 +203,54 @@ const gameController = (function () {
 		return "play";
 	}
 
-	return { player, playRound };
+	return { addPlayer, playRound };
 })();
 
-document.addEventListener("DOMContentLoaded", () => {
-	console.log("ContentLoaded");
-	(function screenController() {
-		let name = prompt("Enter player1(X) name: \n player1 starts with X");
-		players.push(gameController.player(name, "X", true));
-		players.push;
-		name = prompt("Enter player2(O) name: ");
-		players.push(gameController.player(name, "O", false));
-		console.log(players);
-
-		while (true) {
-			let row = prompt("Enter row: ");
-			let column = prompt("Enter column: ");
-			let roundStatus = gameController.playRound(row, column);
-			gameBoard.printBoard();
-			if (roundStatus === "win" || roundStatus === "draw") {
-				console.log(`${players[0].name} score: ${players[0].getScore()}`);
-				console.log(`${players[1].name} score: ${players[1].getScore()}`);
-				break;
-			}
+const screenController = (function () {
+	const playerForm = document.querySelector(".content > form");
+	const playerFormSubmitBtn = document.querySelector("#playerForm");
+	playerFormSubmitBtn.addEventListener("click", (event) => {
+		event.preventDefault();
+		while (players.length !== 0) {
+			players.pop();
 		}
-	})();
-});
+		const p1Name = document.querySelector("#p1Name").value;
+		const p2Name = document.querySelector("#p2Name").value;
+
+		gameController.addPlayer(p1Name, "X", true);
+		gameController.addPlayer(p2Name, "O", false);
+		playerForm.reset();
+	});
+})();
+
+////////////////
+//            //
+//            //
+//            //
+////////////////
+// document.addEventListener("DOMContentLoaded", () => {
+// 	console.log("ContentLoaded");
+// 	(function screenController() {
+// 		let name = prompt("Enter player1(X) name: \n player1 starts with X");
+// 		players.push(gameController.player(name, "X", true));
+// 		players.push;
+// 		name = prompt("Enter player2(O) name: ");
+// 		players.push(gameController.player(name, "O", false));
+// 		console.log(players);
+
+// 		while (true) {
+// 			let row = prompt("Enter row: ");
+// 			let column = prompt("Enter column: ");
+// 			let roundStatus = gameController.playRound(row, column);
+// 			gameBoard.printBoard();
+// 			if (roundStatus === "win" || roundStatus === "draw") {
+// 				console.log(`${players[0].name} score: ${players[0].getScore()}`);
+// 				console.log(`${players[1].name} score: ${players[1].getScore()}`);
+// 				break;
+// 			}
+// 		}
+// 	})();
+// });
 
 // console.log("_____________Game Started_____________");
 // gameBoard.printBoard();
