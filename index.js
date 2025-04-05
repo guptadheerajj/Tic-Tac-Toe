@@ -10,21 +10,19 @@ const gameBoard = (() => {
 	const columns = 3;
 	const board = [];
 	// represents each cell in the game board
-	function cell() {
+	function createCell() {
 		let mark = "0";
-		addMark = (playerMark) => (mark = playerMark);
-		getMark = () => mark;
 
 		return {
-			addMark,
-			getMark,
+			addMark: (playerMark) => (mark = playerMark),
+			getMark: () => mark,
 		};
 	}
 
 	for (let row = 0; row < rows; row++) {
 		board[row] = [];
 		for (let column = 0; column < columns; column++) {
-			board[row].push(cell());
+			board[row].push(createCell());
 		}
 	}
 
@@ -33,7 +31,7 @@ const gameBoard = (() => {
 	// adds mark of they player to the selected cell
 	const markCell = (row, column, playerMark) => {
 		const targetCell = board[row - 1][column - 1];
-		const isCellAvailable = targetCell.getMark() === "0" ? true : false;
+		const isCellAvailable = targetCell.getMark() === "0";
 		if (isCellAvailable) {
 			targetCell.addMark(playerMark);
 			return isCellAvailable;
@@ -75,22 +73,19 @@ const gameController = (function () {
 	function player(name, mark, turn) {
 		let score = 0;
 		let turnPlayed = 0;
-		const getScore = () => score;
-		const incrementScore = () => {
-			score++;
-		};
-		const toggleTurn = () => {
-			turn = !turn;
-		};
-		const getTurn = () => turn;
+
 		return {
 			name,
 			mark,
 			turnPlayed,
-			getScore,
-			incrementScore,
-			toggleTurn,
-			getTurn,
+			getScore: () => score,
+			getTurn: () => turn,
+			incrementScore: () => {
+				score++;
+			},
+			toggleTurn: () => {
+				turn = !turn;
+			},
 		};
 	}
 
@@ -207,20 +202,54 @@ const gameController = (function () {
 })();
 
 const screenController = (function () {
-	const playerForm = document.querySelector(".content > form");
-	const playerFormSubmitBtn = document.querySelector("#playerForm");
-	playerFormSubmitBtn.addEventListener("click", (event) => {
-		event.preventDefault();
-		while (players.length !== 0) {
-			players.pop();
-		}
-		const p1Name = document.querySelector("#p1Name").value;
-		const p2Name = document.querySelector("#p2Name").value;
+	function renderInputs() {
+		const container = document.querySelector("#main-container");
+		const content = document.createElement("div");
+		content.classList.add("input-container");
+		content.innerHTML = `
+			<h1>Tic Tac Toe</h1>
+			<form action="">
+					<div class="form-row">
+						<label for="p1Name">Enter player1 name(X) : </label>
+						<input type="text" name="p1Name" id="p1Name" required>
+					</div>
+					<div class="form-row">
+						<label for="p2Name">Enter player2 name(O) : </label>
+						<input type="text" name="p2Name" id="p2Name" required>
+					</div>
+					<div class="form-row">
+						<button id="playerForm" type="submit">Start Game</button>
+					</div>
+			</form>
+		`;
+		container.appendChild(content);
+	}
 
-		gameController.addPlayer(p1Name, "X", true);
-		gameController.addPlayer(p2Name, "O", false);
-		playerForm.reset();
-	});
+	function addEventToSubmit() {
+		const playerForm = document.querySelector(".input-container > form");
+		const playerFormSubmitBtn = document.querySelector("#playerForm");
+		playerFormSubmitBtn.addEventListener("click", (event) => {
+			event.preventDefault();
+			while (players.length !== 0) {
+				players.pop();
+			}
+			const p1Name = document.querySelector("#p1Name").value;
+			const p2Name = document.querySelector("#p2Name").value;
+
+			gameController.addPlayer(p1Name, "X", true);
+			gameController.addPlayer(p2Name, "O", false);
+			playerForm.reset();
+		});
+	}
+
+	function renderLanding() {
+		renderInputs();
+		addEventToSubmit();
+	}
+
+	return {
+		renderLanding,
+	};
 })();
 
 ////////////////

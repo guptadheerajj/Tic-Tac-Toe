@@ -82,17 +82,17 @@ h6 {
 }
 
 /* main page */
-.content {
+.input-container {
 	min-height: 100vh;
 	display: grid;
 	grid-template-rows: auto 1fr;
 }
 
-.content > h1 {
+#main-container > h1 {
 	text-align: center;
 }
 
 /* form */
-form {
+.input-container > form {
 	place-self: center;
 }
