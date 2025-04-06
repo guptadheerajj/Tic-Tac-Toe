@@ -252,6 +252,10 @@ const screenController = (function () {
 	};
 })();
 
+document.addEventListener("DOMContentLoaded", () => {
+	screenController.renderLanding();
+});
+
 ////////////////
 //            //
 //            //
