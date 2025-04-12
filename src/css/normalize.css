@@ -1,3 +1,5 @@
+@import "font.css";
+
 /* 1. Use a more-intuitive box-sizing model */
 *,
 *::before,
@@ -75,24 +77,22 @@ h6 {
 }
 
 :root {
-	--bg-color: #84a4b1;
-	--clr-O: #f28585;
-	--clr-X: #8873dd;
-	--clr-tile: #f2f2f2;
-}
+	/* Base colors */
+	--color-bg-primary: #192a32; /* Dark background */
+	--color-bg-secondary: #1f3540; /* Light background/panel color */
+	--color-text-light: #a3b7bf; /* Light text color */
+	--color-text-dark: #1f3842; /* Dark text color */
 
-/* main page */
-.input-container {
-	min-height: 100vh;
-	display: grid;
-	grid-template-rows: auto 1fr;
-}
+	/* Button/accent colors */
+	--color-accent-yellow: #f2b138; /* Yellow/orange button */
+	--color-accent-teal: #34bfb1; /* Teal button */
 
-#main-container > h1 {
-	text-align: center;
-}
+	/* Game-specific (optional) */
+	--color-mark-x: #34bfb1; /* X mark color (teal) */
+	--color-mark-o: #f2b138; /* O mark color (yellow) */
 
-/* form */
-.input-container > form {
-	place-self: center;
+	/* Shadow colors */
+	--color-shadow: #10212a; /* Tile shadow */
+
+	--font-main: "Outfit", sans-serif;
 }
