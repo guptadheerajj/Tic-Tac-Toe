@@ -25,11 +25,11 @@ module.exports = {
 			},
 			{
 				test: /\.(svg)$/i,
-				use: "asset/resource",
+				type: "asset/resource",
 			},
 			{
 				test: /\.woff2$/i,
-				use: "asset/resource",
+				type: "asset/resource",
 			},
 		],
 	},

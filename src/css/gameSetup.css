@@ -1,1 +1,190 @@
-@import "normalize.css";
+/* @import "common.css"; */
+
+.gameSetupContainer {
+	padding: 2.8rem clamp(0.5rem, 2.357vw - 0.016rem, 2.813rem);
+	border-radius: 8px;
+	box-shadow: 0 4px 15px -3px #dad9d9;
+	margin: 1rem;
+	display: flex;
+	flex-flow: column nowrap;
+	gap: 2.4rem;
+	justify-content: center;
+	align-items: center;
+
+	color: var(--color-text);
+}
+
+.gameSetupContainer__heading {
+	text-align: center;
+	font-size: 1.1rem;
+}
+
+.gameSetupContainer__heading > h2 {
+	color: var(--color-heading);
+}
+
+.gameSetupContainer .playerNames {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 1.4rem;
+}
+
+.gameSetupContainer .playerNames > * {
+	border-radius: 12px;
+	padding: 1.5rem;
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
+	background-image: linear-gradient(
+		to bottom,
+		#ffffff,
+		var(--background-color-player)
+	);
+}
+
+.playerIconOval {
+	background-color: var(--background-color-oval);
+	border-radius: 50%;
+	padding: 0.6rem;
+	display: grid;
+	place-content: center;
+}
+
+.playerNames input {
+	border-radius: 8px;
+	border: 2px solid var(--border-color);
+	padding: 4px 1rem;
+}
+
+.playerNames label {
+	display: flex;
+	justify-content: center;
+	flex-flow: column nowrap;
+	align-items: center;
+	gap: 4px;
+	font-size: 1.1em;
+	font-weight: 500;
+}
+
+.playerNames input:focus {
+	outline: none;
+	border-bottom: 2px solid #999;
+	border-right: 2px solid #999;
+}
+
+#setUpForm {
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+	gap: 2rem;
+}
+
+#setUpForm > fieldset {
+	border: none;
+	padding: 0;
+}
+
+#setUpForm legend {
+	font-size: 1.1em;
+	font-weight: 500;
+}
+
+.firstPlayer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1.4rem;
+}
+
+fieldset > legend {
+	text-align: center;
+	margin-bottom: 4px;
+}
+
+.radio-container,
+.mark-radio-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1.4rem;
+	flex-wrap: wrap;
+}
+
+.radio + label,
+.mark-radio + label {
+	cursor: pointer;
+	padding: 0.6rem 1rem;
+	border-radius: 4px;
+	display: block;
+	border: 2px solid var(--background-color-checked);
+	position: relative;
+
+	display: flex;
+	align-items: center;
+}
+
+.radio + label {
+	width: 284px;
+	padding-left: 3rem;
+}
+
+.mark-radio + label {
+	display: flex;
+	justify-content: center;
+}
+
+.radio,
+.mark-radio {
+	display: none;
+}
+
+.radio:checked + label,
+.mark-radio:checked + label {
+	background-color: var(--background-color-checked);
+	color: #ffffff;
+}
+
+.radio + label::after {
+	content: "";
+	position: absolute;
+	border: 1px solid var(--background-color-checked);
+	width: 24px;
+	height: 24px;
+	display: block;
+	border-radius: 50%;
+	left: 1rem;
+}
+
+.radio:checked + label::after {
+	border: 1px solid #ffffff;
+}
+
+.radio + label::before {
+	content: "";
+	background-color: var(--background-color-checked);
+	width: 1rem;
+	height: 1rem;
+	left: calc(1rem + 4px);
+	position: absolute;
+	border-radius: 50%;
+}
+
+.radio:checked + label::before {
+	background-color: #ffffff;
+}
+
+#setUpForm button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0.5rem 1rem;
+	width: max-content;
+	gap: 10px;
+	background-image: var(--color-gradient);
+	border: none;
+	color: #ffffff;
+	border-radius: 4px;
+}

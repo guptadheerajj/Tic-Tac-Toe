@@ -8,8 +8,91 @@
 </head>
 
 <body>
+	<header>
+		<img src="./assets/images/icons/controller-icon.svg" alt="controller-icon">
+		<p>Tic-Tac-Toe</p>
+	</header>
 	<!-- Main container for the Tic Tac Toe game -->
-	<div id="main-container"></div>
+	<div id="main-container">
+		<div class="gameSetupContainer">
+			<header class="gameSetupContainer__heading">
+				<h2>Welcome to Tic-Tac-Toe</h2>
+				<p>Set up your game to start playing</p>
+			</header>
+			<form action="" id="setUpForm">
+				<div class="playerNames">
+					<div class="player1">
+						<label for="p1Name">
+							<div class="playerIconOval">
+								<img src="./assets/images/icons/player-icon.svg" alt="player-icon" width="20"
+									height="20">
+							</div>
+							<p>Player1</p>
+						</label>
+						<input type="text" id="p1Name" name="p1Name" placeholder="Enter player1 name">
+					</div>
+					<div class="player2">
+						<label for="p2Name">
+							<div class="playerIconOval">
+								<img src="./assets/images/icons/player-icon.svg" alt="player-icon" width="20"
+									height="20">
+							</div>
+							<p>Player2</p>
+						</label>
+						<input type="text" id="p2Name" name="p2Name" placeholder="Enter player2 name">
+					</div>
+				</div>
+				<fieldset class="radio-fieldset">
+					<legend>Who goes first?</legend>
+					<div class="radio-container">
+						<div>
+							<input type="radio" id="player1" value="player1" class="radio" required checked
+								name="firstPlayer">
+							<label for="player1">Player1</label>
+						</div>
+						<div>
+							<input type="radio" id="player2" value="player2" class="radio" name="firstPlayer">
+							<label for="player2">Player2</label>
+						</div>
+					</div>
+				</fieldset>
+				<fieldset class="mark-radio-fieldset">
+					<legend>Choose First Player's Mark</legend>
+					<div class="mark-radio-container">
+						<div>
+							<input type="radio" id="xMark" name="mark" value="x" class="mark-radio" required>
+							<label for="xMark">
+								<img src="./assets/images/icons/x-mark.svg" alt="x-mark-icon">
+							</label>
+						</div>
+						<div>
+							<input type="radio" id="oMark" name="mark" value="o" class="mark-radio">
+							<label for="oMark">
+								<img src="./assets/images/icons/o-mark.svg" alt="o-mark-icon">
+							</label>
+						</div>
+					</div>
+				</fieldset>
+
+				<button type="submit" class="btn">
+					<img src="./assets/images/icons/controller-icon.svg" alt="" width="24" height="24">
+					Start Game
+				</button>
+			</form>
+		</div>
+	</div>
+
+	<footer>
+		<div class="social-links">
+			<a href="https://github.com/guptadheerajj" target="_blank" rel="noreferrer noopener"><img
+					src="./assets/images/icons/github-icon.svg" alt="github-icon" width="24" height="24"></a>
+			<a href="https://github.com/guptadheerajj" target="_blank" rel="noreferrer noopener"><img
+					src="./assets/images/icons/linkedin-icon.svg" alt="github-icon" width="26" height="26"></a>
+			<a href="https://github.com/guptadheerajj" target="_blank" rel="noreferrer noopener"><img
+					src="./assets/images/icons/twitter-icon.svg" alt="twitter-icon" width="24" height="24"></a>
+		</div>
+		<p>©2025 Tic-Tac-Toe Game. All rights reserved.</p>
+	</footer>
 </body>
 
 </html>
