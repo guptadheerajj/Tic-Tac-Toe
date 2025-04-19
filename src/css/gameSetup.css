@@ -1,4 +1,4 @@
-/* @import "common.css"; */
+@import "common.css";
 
 .gameSetupContainer {
 	padding: 2.8rem clamp(0.5rem, 2.357vw - 0.016rem, 2.813rem);

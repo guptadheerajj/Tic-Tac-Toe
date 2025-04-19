@@ -13,74 +13,7 @@
 		<p>Tic-Tac-Toe</p>
 	</header>
 	<!-- Main container for the Tic Tac Toe game -->
-	<div id="main-container">
-		<div class="gameSetupContainer">
-			<header class="gameSetupContainer__heading">
-				<h2>Welcome to Tic-Tac-Toe</h2>
-				<p>Set up your game to start playing</p>
-			</header>
-			<form action="" id="setUpForm">
-				<div class="playerNames">
-					<div class="player1">
-						<label for="p1Name">
-							<div class="playerIconOval">
-								<img src="./assets/images/icons/player-icon.svg" alt="player-icon" width="20"
-									height="20">
-							</div>
-							<p>Player1</p>
-						</label>
-						<input type="text" id="p1Name" name="p1Name" placeholder="Enter player1 name" required>
-					</div>
-					<div class="player2">
-						<label for="p2Name">
-							<div class="playerIconOval">
-								<img src="./assets/images/icons/player-icon.svg" alt="player-icon" width="20"
-									height="20">
-							</div>
-							<p>Player2</p>
-						</label>
-						<input type="text" id="p2Name" name="p2Name" placeholder="Enter player2 name" required>
-					</div>
-				</div>
-				<fieldset class="radio-fieldset">
-					<legend>Who goes first?</legend>
-					<div class="radio-container">
-						<div>
-							<input type="radio" id="player1" value="player1" class="radio" required checked
-								name="firstPlayer">
-							<label for="player1">Player1</label>
-						</div>
-						<div>
-							<input type="radio" id="player2" value="player2" class="radio" name="firstPlayer">
-							<label for="player2">Player2</label>
-						</div>
-					</div>
-				</fieldset>
-				<fieldset class="mark-radio-fieldset">
-					<legend>Choose First Player's Mark</legend>
-					<div class="mark-radio-container">
-						<div>
-							<input type="radio" id="xMark" name="mark" value="x" class="mark-radio" required>
-							<label for="xMark">
-								<img src="./assets/images/icons/x-mark.svg" alt="x-mark-icon">
-							</label>
-						</div>
-						<div>
-							<input type="radio" id="oMark" name="mark" value="o" class="mark-radio">
-							<label for="oMark">
-								<img src="./assets/images/icons/o-mark.svg" alt="o-mark-icon">
-							</label>
-						</div>
-					</div>
-				</fieldset>
-
-				<button type="submit" class="btn">
-					<img src="./assets/images/icons/controller-icon.svg" alt="" width="24" height="24">
-					Start Game
-				</button>
-			</form>
-		</div>
-	</div>
+	<div id="main-container"></div>
 
 	<footer>
 		<div class="social-links">
@@ -126,7 +59,7 @@
 				</svg>
 			</a>
 			<a href="https://github.com/guptadheerajj" target="_blank" rel="noreferrer noopener">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50% 50%" width="26" height="26">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" width="26" height="26">
 					<title>linkedin</title>
 					<path fill="#4B5563"
 						d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" />
