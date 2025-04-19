@@ -130,11 +130,16 @@ body > footer {
 	padding: 1rem;
 	display: grid;
 	place-content: center;
-	gap: 0.5rem;
 }
 
 body > footer > .social-links {
 	display: flex;
 	gap: 1rem;
 	justify-content: center;
+	align-items: center;
+}
+
+/* Update the selector to target all paths in SVGs */
+footer a:hover svg path {
+	fill: var(--color-primary);
 }

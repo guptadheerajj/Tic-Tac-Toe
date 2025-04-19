@@ -113,13 +113,20 @@ fieldset > legend {
 	flex-wrap: wrap;
 }
 
+.radio-container > div,
+.mark-radio-container > div {
+	background-image: var(--color-gradient);
+	border-radius: 4px;
+	padding: 1px;
+}
+
 .radio + label,
 .mark-radio + label {
+	background-color: #ffffff;
 	cursor: pointer;
 	padding: 0.6rem 1rem;
-	border-radius: 4px;
+	border-radius: inherit;
 	display: block;
-	border: 2px solid var(--background-color-checked);
 	position: relative;
 
 	display: flex;
@@ -144,6 +151,7 @@ fieldset > legend {
 .radio:checked + label,
 .mark-radio:checked + label {
 	background-color: var(--background-color-checked);
+	background-image: var(--color-gradient);
 	color: #ffffff;
 }
 
@@ -187,4 +195,10 @@ fieldset > legend {
 	border: none;
 	color: #ffffff;
 	border-radius: 4px;
+	cursor: pointer;
+}
+
+#setUpForm button:hover {
+	transform: scale(1.08);
+	transition: transform 0.4s ease-out;
 }
