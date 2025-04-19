@@ -5,10 +5,10 @@
  */
 
 import { gameBoard } from "./gameBoard.js";
-
-export const players = [];
+import { gameBoardUI } from "./renderGameBoard.js";
 
 export const gameController = (function () {
+	const players = [];
 	let numberOfRoundsPlayed = 0;
 	// player factory function with score and turn as private variables
 	function player(name, mark, turn) {
@@ -31,8 +31,22 @@ export const gameController = (function () {
 	}
 
 	function addPlayer(name, mark, turn) {
-		const ply = player(name, mark, turn);
-		players.push(ply);
+		const playerObj = player(name, mark, turn);
+		players.push(playerObj);
+	}
+
+	function initializaGame({ p1Name, p2Name, p1Mark, p2Mark, firstPlayer }) {
+		let p1Turn, p2Turn;
+		if (firstPlayer === "player1") {
+			p1Turn = true;
+			p2Turn = !p1Turn;
+		} else {
+			p2Turn = true;
+			p1Turn = !p2Turn;
+		}
+		addPlayer(p1Name, p1Mark, p1Turn);
+		addPlayer(p2Name, p2Mark, p2Turn);
+		gameBoardUI.renderUI();
 	}
 
 	// if markCount is 3 then the player wins the game
@@ -139,5 +153,5 @@ export const gameController = (function () {
 		return "play";
 	}
 
-	return { addPlayer, playRound };
+	return { initializaGame, playRound };
 })();

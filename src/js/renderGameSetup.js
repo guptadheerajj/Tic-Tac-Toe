@@ -1,3 +1,4 @@
+import { gameController } from "./gameController";
 import "../css/gameSetup.css";
 import oMarkIcon from "../assets/images/icons/o-mark.svg";
 import xMarkIcon from "../assets/images/icons/x-mark.svg";
@@ -121,15 +122,21 @@ export const gameSetupPage = (() => {
 		};
 	}
 
-	function attackGameStartListener() {
+	function createGameConfig() {
+		const formData = collectGameSettings();
+		const playerMarks = assignMark(formData);
+		const { p1Name, p2Name, firstPlayer } = formData;
+		return { firstPlayer, p1Name, p2Name, ...playerMarks };
+	}
+
+	function attachGameStartListener() {
 		const startGameButton = document.querySelector(
 			"form > button[type='submit']"
 		);
 		startGameButton.addEventListener("click", (event) => {
 			event.preventDefault();
-			const inputs = collectGameSettings();
-			console.log(inputs);
-			console.log(assignMark(inputs));
+			const gameConfig = createGameConfig();
+			gameController.initializaGame(gameConfig);
 		});
 	}
 
@@ -139,7 +146,7 @@ export const gameSetupPage = (() => {
 			gameSetupRendered = true;
 		}
 		if (!eventListenersAttached) {
-			attackGameStartListener();
+			attachGameStartListener();
 			eventListenersAttached = true;
 		}
 	}
