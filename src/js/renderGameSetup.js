@@ -60,7 +60,7 @@ export const gameSetupPage = (() => {
 							</label>
 						</div>
 						<div>
-							<input type="radio" id="oMark" name="firstPlayerMark" value="o" class="mark-radio">
+							<input type="radio" id="oMark" name="firstPlayerMark" value="o" class="mark-radio" checked>
 							<label for="oMark">
 								<img src="${oMarkIcon}" alt="o-mark-icon">
 							</label>
@@ -79,28 +79,7 @@ export const gameSetupPage = (() => {
 		mainContainer.appendChild(gameSetupContainer);
 	}
 
-	function collectGameSettings() {
-		// get player names
-		const p1Name =
-			document.querySelector('input[name="p1Name"]').value || "Player1";
-		const p2Name =
-			document.querySelector('input[name="p2Name"]').value || "Player2";
-
-		//get first player
-		const firstPlayer =
-			document.querySelector('input[name="firstPlayer"]:checked').value ||
-			"player1";
-
-		//get first player mark
-		const marks = document.getElementsByName("firstPlayerMark");
-		let firstPlayerMark = "x";
-		for (const mark of marks) {
-			if (mark.checked) {
-				firstPlayerMark = mark.value;
-				break;
-			}
-		}
-
+	function assignMark({ firstPlayerMark, firstPlayer }) {
 		let p1Mark;
 		let p2Mark;
 		if (firstPlayer === "player1") {
@@ -112,11 +91,33 @@ export const gameSetupPage = (() => {
 		}
 
 		return {
-			firstPlayer,
-			p1Name,
 			p1Mark,
-			p2Name,
 			p2Mark,
+		};
+	}
+
+	function collectGameSettings() {
+		// get player names
+		const p1Name =
+			document.querySelector('input[name="p1Name"]').value || "Player1";
+		const p2Name =
+			document.querySelector('input[name="p2Name"]').value || "Player2";
+
+		//get first player
+		const firstPlayer = document.querySelector(
+			'input[name="firstPlayer"]:checked'
+		).value;
+
+		//get first player mark
+		const firstPlayerMark = document.querySelector(
+			'input[name="firstPlayerMark"]:checked'
+		).value;
+
+		return {
+			firstPlayer,
+			firstPlayerMark,
+			p1Name,
+			p2Name,
 		};
 	}
 
@@ -128,6 +129,7 @@ export const gameSetupPage = (() => {
 			event.preventDefault();
 			const inputs = collectGameSettings();
 			console.log(inputs);
+			console.log(assignMark(inputs));
 		});
 	}
 
