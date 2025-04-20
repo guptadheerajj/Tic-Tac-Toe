@@ -1,5 +1,3 @@
-@import "font.css";
-
 /* 1. Use a more-intuitive box-sizing model */
 *,
 *::before,
@@ -58,6 +56,7 @@ h6 {
 /* 9. Improve line wrapping */
 p {
 	text-wrap: pretty;
+	margin: 0;
 }
 h1,
 h2,
@@ -87,6 +86,12 @@ h6 {
 		var(--color-primary),
 		var(--color-secondary)
 	);
+	--button-gradient: linear-gradient(
+		to bottom right,
+		var(--color-primary),
+		var(--color-secondary)
+	);
+	/* --button-gradient: linear-gradient(to bottom right, #8a6fe6, #a78bfa); */
 
 	/* Typography */
 	--color-heading: #1f2937;

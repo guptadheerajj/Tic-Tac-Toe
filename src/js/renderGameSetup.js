@@ -1,5 +1,4 @@
 import { gameController } from "./gameController";
-import "../css/gameSetup.css";
 import oMarkIcon from "../assets/images/icons/o-mark.svg";
 import xMarkIcon from "../assets/images/icons/x-mark.svg";
 import gameControllerIcon from "../assets/images/icons/controller-icon.svg";
@@ -136,7 +135,7 @@ export const gameSetupPage = (() => {
 		startGameButton.addEventListener("click", (event) => {
 			event.preventDefault();
 			const gameConfig = createGameConfig();
-			gameController.initializaGame(gameConfig);
+			gameController.initializeGame(gameConfig);
 		});
 	}
 

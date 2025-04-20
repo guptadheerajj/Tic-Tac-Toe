@@ -5,7 +5,7 @@
  */
 
 import { gameBoard } from "./gameBoard.js";
-import { gameBoardUI } from "./renderGameBoard.js";
+import { gameBoardPage } from "./renderGameBoard.js";
 
 export const gameController = (function () {
 	const players = [];
@@ -35,7 +35,7 @@ export const gameController = (function () {
 		players.push(playerObj);
 	}
 
-	function initializaGame({ p1Name, p2Name, p1Mark, p2Mark, firstPlayer }) {
+	function initializeGame({ p1Name, p2Name, p1Mark, p2Mark, firstPlayer }) {
 		let p1Turn, p2Turn;
 		if (firstPlayer === "player1") {
 			p1Turn = true;
@@ -46,7 +46,7 @@ export const gameController = (function () {
 		}
 		addPlayer(p1Name, p1Mark, p1Turn);
 		addPlayer(p2Name, p2Mark, p2Turn);
-		gameBoardUI.renderUI();
+		gameBoardPage.createGameBoardUI();
 	}
 
 	// if markCount is 3 then the player wins the game
@@ -153,5 +153,5 @@ export const gameController = (function () {
 		return "play";
 	}
 
-	return { initializaGame, playRound };
+	return { initializeGame, playRound };
 })();

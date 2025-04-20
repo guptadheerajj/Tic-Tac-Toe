@@ -1,1 +1,190 @@
-@import "normalize.css";
+/* *,
+*:after,
+*:before {
+	outline: 2px solid red;
+} */
+
+#main-container {
+	/* background-color: #8a6fe6; */
+}
+
+.game-board-container {
+	padding: 2rem 1rem;
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	gap: 1.5rem;
+}
+
+.control-button {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	gap: 0.4rem;
+	background-image: var(--button-gradient);
+	border: none;
+	color: #ffffff;
+	border-radius: 0.5rem;
+	padding: 0.5rem 1rem;
+}
+
+.control-button img {
+	height: 1rem;
+	font-weight: 1rem;
+}
+.control-button.volume {
+	padding: 0.625rem;
+	flex: 1 0 auto;
+}
+
+.control-button.volume img {
+	height: 1.25rem;
+	width: 1.25rem;
+}
+
+.game-controls,
+.controls-left,
+.controls-right,
+.player-info,
+.player-info p {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.player-info p {
+	gap: 0.4rem;
+}
+
+.game-controls {
+	justify-content: space-between;
+}
+
+/* player stats part */
+.player-stats {
+	display: flex;
+	gap: 0.75rem;
+	justify-content: center;
+
+	flex-flow: row nowrap;
+}
+
+.player-stats__player {
+	background-color: #e2d9ff;
+	border-radius: 12px;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem;
+
+	width: 22.5rem;
+}
+
+@media screen and (max-width: 770px) {
+	.control-button {
+		font-size: 0.9em;
+	}
+	.player-stats {
+		flex-flow: wrap;
+	}
+	.player-stats__player {
+		width: 100%;
+	}
+}
+
+.normal-text {
+	font-size: 1em;
+	font-weight: 400;
+	color: #4b5563;
+	line-height: 1.1;
+}
+
+.heading-text {
+	font-size: 1.1em;
+	font-weight: 600;
+	color: #000000;
+	line-height: 1.1;
+}
+
+.player-score {
+	text-align: center;
+}
+
+/* .player-stats__player * {
+	outline: 2px solid red;
+} */
+
+/* game status part */
+.game-status {
+	align-self: center;
+	text-align: center;
+	display: grid;
+	gap: 0.3rem;
+}
+
+.game-status > div > span {
+	color: #6b4aff;
+	font-weight: 600;
+}
+
+/* game grid/board part */
+.game-grid {
+	padding: 0 1rem;
+	width: min(360px, 100%);
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 0.5rem;
+	align-self: center;
+}
+
+.grid-cell {
+	aspect-ratio: 1 / 1;
+	display: grid;
+	place-content: center;
+	background-color: #a78bfa;
+	border-radius: 6px;
+}
+
+.score-reset-button {
+	align-self: center;
+}
+
+/* match statistics part */
+.match-stats {
+	align-self: center;
+	background-color: #bca4ff;
+	color: #ffffff;
+	border-radius: 12px;
+	width: min(22.5rem, 100%);
+	padding: 1.5rem;
+
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+}
+.match-stats * {
+	color: inherit;
+}
+
+.match-stats > header {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.match-stats > div:first-of-type {
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+	text-align: center;
+}
+
+.match-stats-values {
+	color: var(--color-primary);
+	font-weight: 900;
+	font-size: 1.2rem;
+}
