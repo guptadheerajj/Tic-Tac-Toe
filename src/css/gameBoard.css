@@ -113,10 +113,6 @@
 	text-align: center;
 }
 
-/* .player-stats__player * {
-	outline: 2px solid red;
-} */
-
 /* game status part */
 .game-status {
 	align-self: center;
@@ -133,19 +129,26 @@
 /* game grid/board part */
 .game-grid {
 	padding: 0 1rem;
+	align-self: center;
 	width: min(360px, 100%);
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	gap: 0.5rem;
-	align-self: center;
 }
 
 .grid-cell {
 	aspect-ratio: 1 / 1;
 	display: grid;
 	place-content: center;
-	background-color: #a78bfa;
-	border-radius: 6px;
+	background-color: var(--background-color);
+}
+
+.grid-cell:nth-child(3n + 1),
+.grid-cell:nth-child(3n + 2) {
+	border-right: var(--border-color-grid);
+}
+
+.grid-cell:nth-child(-n + 6) {
+	border-bottom: var(--border-color-grid);
 }
 
 .score-reset-button {
