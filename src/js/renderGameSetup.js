@@ -136,6 +136,12 @@ export const gameSetupPage = (() => {
 			event.preventDefault();
 			const gameConfig = createGameConfig();
 			gameController.initializeGame(gameConfig);
+			let headerHeight = document.querySelector("body > header").offsetHeight;
+			window.scrollTo({
+				top: headerHeight,
+				left: 0,
+				behavior: "smooth",
+			});
 		});
 	}
 
