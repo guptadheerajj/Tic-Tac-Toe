@@ -5,7 +5,6 @@
  */
 
 import { gameBoard } from "./gameBoard.js";
-import { gameBoardPage } from "./renderGameBoard.js";
 
 export const gameController = (function () {
 	const players = [];
@@ -13,16 +12,19 @@ export const gameController = (function () {
 	// player factory function with score and turn as private variables
 	function player(name, mark, turn) {
 		let score = 0;
-		let turnPlayed = 0;
+		let turnsPlayed = 0;
 
 		return {
 			name,
 			mark,
-			turnPlayed,
+			turnsPlayed,
 			getScore: () => score,
 			getTurn: () => turn,
 			incrementScore: () => {
 				score++;
+			},
+			resetScore: () => {
+				score = 0;
 			},
 			toggleTurn: () => {
 				turn = !turn;
@@ -46,7 +48,6 @@ export const gameController = (function () {
 		}
 		addPlayer(p1Name, p1Mark, p1Turn);
 		addPlayer(p2Name, p2Mark, p2Turn);
-		gameBoardPage.createGameBoardUI();
 	}
 
 	// if markCount is 3 then the player wins the game
@@ -127,7 +128,7 @@ export const gameController = (function () {
 		const markStatus = gameBoard.markCell(row, column, playerTurn.mark);
 
 		if (markStatus) {
-			playerTurn.turnPlayed++;
+			playerTurn.turnsPlayed++;
 			const isWin = checkWinCondition(playerTurn.mark);
 			if (isWin) {
 				numberOfRoundsPlayed++;
@@ -139,7 +140,7 @@ export const gameController = (function () {
 				);
 				return "win";
 			}
-			if (playerTurn.turnPlayed === 5) {
+			if (playerTurn.turnsPlayed === 5) {
 				numberOfRoundsPlayed++;
 				setFirstMove();
 				gameBoard.resetBoard();

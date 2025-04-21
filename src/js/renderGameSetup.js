@@ -1,4 +1,5 @@
 import { gameController } from "./gameController";
+import { gameBoardPage } from "./renderGameBoard";
 import oMarkIcon from "../assets/images/icons/o-mark.svg";
 import xMarkIcon from "../assets/images/icons/x-mark.svg";
 import gameControllerIcon from "../assets/images/icons/controller-icon.svg";
@@ -128,6 +129,15 @@ export const gameSetupPage = (() => {
 		return { firstPlayer, p1Name, p2Name, ...playerMarks };
 	}
 
+	function scrollToTop() {
+		let headerHeight = document.querySelector("body > header").offsetHeight;
+		window.scrollTo({
+			top: headerHeight,
+			left: 0,
+			behavior: "smooth",
+		});
+	}
+
 	function attachGameStartListener() {
 		const startGameButton = document.querySelector(
 			"form > button[type='submit']"
@@ -136,12 +146,8 @@ export const gameSetupPage = (() => {
 			event.preventDefault();
 			const gameConfig = createGameConfig();
 			gameController.initializeGame(gameConfig);
-			let headerHeight = document.querySelector("body > header").offsetHeight;
-			window.scrollTo({
-				top: headerHeight,
-				left: 0,
-				behavior: "smooth",
-			});
+			gameBoardPage.renderGameBoard();
+			scrollToTop();
 		});
 	}
 

@@ -7,6 +7,8 @@ import xMarkIcon from "../assets/images/icons/x-mark.svg";
 import trophyIcon from "../assets/images/icons/trophy-icon.svg";
 
 export const gameBoardPage = (function () {
+	let isEventListenersAttached = false;
+	let isGameBoardRendered = false;
 	function createGameBoardUI() {
 		const mainContainer = document.querySelector("#main-container");
 		const gameBoardContainer = document.createElement("div");
@@ -101,5 +103,18 @@ export const gameBoardPage = (function () {
 		mainContainer.appendChild(gameBoardContainer);
 	}
 
-	return { createGameBoardUI };
+	function attachGameBoardListeners() {}
+
+	function renderGameBoard() {
+		if (!isGameBoardRendered) {
+			createGameBoardUI();
+			isGameBoardRendered = true;
+		}
+		if (!isEventListenersAttached) {
+			attachGameBoardListeners();
+			isEventListenersAttached = true;
+		}
+	}
+
+	return { renderGameBoard };
 })();
