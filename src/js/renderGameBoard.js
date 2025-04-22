@@ -5,6 +5,7 @@ import playerIcon from "../assets/images/icons/player-icon.svg";
 import oMarkIcon from "../assets/images/icons/o-mark.svg";
 import xMarkIcon from "../assets/images/icons/x-mark.svg";
 import trophyIcon from "../assets/images/icons/trophy-icon.svg";
+import { gameController } from "./gameController";
 
 export const gameBoardPage = (function () {
 	let isEventListenersAttached = false;
@@ -36,9 +37,9 @@ export const gameBoardPage = (function () {
 					<div class="player-info">
 						<img src="${playerIcon}" alt="Player icon">
 						<div>
-							<h3 class="heading-text">Player 1</h3>
-							<p class="normal-text"><span>Playing as </span> <img src="${xMarkIcon}"
-									alt="X mark" width="16" height="16"></p>
+							<h3 class="heading-text"></h3>
+							<p class="normal-text"><span>Playing as </span> <img src=""
+									alt="" width="16" height="16"></p>
 						</div>
 					</div>
 					<div class="player-score">
@@ -50,8 +51,8 @@ export const gameBoardPage = (function () {
 					<div class="player-info">
 						<img src="${playerIcon}" alt="Player icon">
 						<div>
-							<h3 class="heading-text">Player 2</h3>
-							<p class="normal-text">Playing as <img src="${oMarkIcon}" alt="O mark"
+							<h3 class="heading-text"></h3>
+							<p class="normal-text">Playing as <img src="" alt=""
 									width="16" height="16"></p>
 						</div>
 					</div>
@@ -66,15 +67,15 @@ export const gameBoardPage = (function () {
 				<div class="turn-display normal-text"><span>Player 1</span>'s Turn</div>
 			</div>
 			<div class="game-grid">
-				<div class="grid-cell"><img src="${xMarkIcon}" alt="X mark"></div>
-				<div class="grid-cell"><img src="${oMarkIcon}" alt="O mark"></div>
-				<div class="grid-cell"><img src="${xMarkIcon}" alt="X mark"></div>
-				<div class="grid-cell"><img src="${oMarkIcon}" alt="O mark"></div>
-				<div class="grid-cell"><img src="${xMarkIcon}" alt="X mark"></div>
-				<div class="grid-cell"><img src="${oMarkIcon}" alt="O mark"></div>
-				<div class="grid-cell"><img src="${xMarkIcon}" alt="X mark"></div>
-				<div class="grid-cell"><img src="${xMarkIcon}" alt="X mark"></div>
-				<div class="grid-cell"><img src="${xMarkIcon}" alt="X mark"></div>
+				<div class="grid-cell"><img src="" alt=""></div>
+				<div class="grid-cell"><img src="" alt=""></div>
+				<div class="grid-cell"><img src="" alt=""></div>
+				<div class="grid-cell"><img src="" alt=""></div>
+				<div class="grid-cell"><img src="" alt=""></div>
+				<div class="grid-cell"><img src="" alt=""></div>
+				<div class="grid-cell"><img src="" alt=""></div>
+				<div class="grid-cell"><img src="" alt=""></div>
+				<div class="grid-cell"><img src="" alt=""></div>
 			</div>
 			<button class="control-button score-reset-button">
 				<img src="${restartIcon}" alt="Restart icon">
@@ -116,5 +117,35 @@ export const gameBoardPage = (function () {
 		}
 	}
 
-	return { renderGameBoard };
+	function displayPlayerTurnName(players) {
+		const turnDisplay = document.querySelector(".turn-display > span");
+		for (let player of players) {
+			if (player.getTurn()) {
+				turnDisplay.textContent = player.name;
+				return;
+			}
+		}
+	}
+
+	function displayInitialPlayerConfig(players) {
+		const playerNameContainers = document.querySelectorAll(".player-info h3");
+		const playerMarkContairs = document.querySelectorAll(
+			".player-info div img"
+		);
+		const playerScoreContairs = document.querySelectorAll(".player-score h3");
+		const matchStatsValues = document.querySelectorAll(".match-stats-values");
+
+		for (let i = 0; i < players.length; i++) {
+			playerNameContainers[i].textContent = players[i].name;
+			playerMarkContairs[i].src =
+				players[i].mark === "x" ? xMarkIcon : oMarkIcon;
+			playerScoreContairs[i].textContent = "0";
+			matchStatsValues[i].textContent = "0";
+		}
+		displayPlayerTurnName(players);
+	}
+
+	// function updateScore
+
+	return { renderGameBoard, displayInitialPlayerConfig };
 })();

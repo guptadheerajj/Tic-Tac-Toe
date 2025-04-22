@@ -1,5 +1,5 @@
-import { gameController } from "./gameController";
-import { gameBoardPage } from "./renderGameBoard";
+import { gameController } from "./gameController.js";
+import { gameBoardPage } from "./renderGameBoard.js";
 import oMarkIcon from "../assets/images/icons/o-mark.svg";
 import xMarkIcon from "../assets/images/icons/x-mark.svg";
 import gameControllerIcon from "../assets/images/icons/controller-icon.svg";
@@ -147,6 +147,7 @@ export const gameSetupPage = (() => {
 			const gameConfig = createGameConfig();
 			gameController.initializeGame(gameConfig);
 			gameBoardPage.renderGameBoard();
+			gameBoardPage.displayInitialPlayerConfig(gameController.players);
 			scrollToTop();
 		});
 	}

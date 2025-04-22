@@ -46,8 +46,13 @@ export const gameController = (function () {
 			p2Turn = true;
 			p1Turn = !p2Turn;
 		}
-		addPlayer(p1Name, p1Mark, p1Turn);
-		addPlayer(p2Name, p2Mark, p2Turn);
+		if (p1Turn) {
+			addPlayer(p1Name, p1Mark, p1Turn);
+			addPlayer(p2Name, p2Mark, p2Turn);
+		} else {
+			addPlayer(p2Name, p2Mark, p2Turn);
+			addPlayer(p1Name, p1Mark, p1Turn);
+		}
 	}
 
 	// if markCount is 3 then the player wins the game
@@ -154,5 +159,5 @@ export const gameController = (function () {
 		return "play";
 	}
 
-	return { initializeGame, playRound };
+	return { initializeGame, playRound, players };
 })();
