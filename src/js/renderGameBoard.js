@@ -89,11 +89,11 @@ export const gameBoardPage = (function () {
 				<div>
 					<div class="total-rounds">
 						<p>Total Rounds</p>
-						<p class="match-stats-values">5</p>
+						<p class="match-stats-values" data-set="total-round"></p>
 					</div>
 					<div class="draws">
 						<p>Draws</p>
-						<p class="match-stats-values">1</p>
+						<p class="match-stats-values" data-set="draw"></p>
 					</div>
 				</div>
 			</div>
@@ -133,7 +133,7 @@ export const gameBoardPage = (function () {
 		}
 	}
 
-	function displayRoundNumber(numberOfRoundsPlayed) {
+	function displayRoundNumber({ numberOfRoundsPlayed }) {
 		const roundNumberHolder = document.querySelector(
 			'span[data-set="round-number"]'
 		);
@@ -160,11 +160,20 @@ export const gameBoardPage = (function () {
 		displayPlayerCardName(players);
 	}
 
+	function displayMatchStatistics({ numberOfRoundsPlayed, numberOfDraws }) {
+		const totalRoundHolder = document.querySelector('[data-set="total-round"]');
+		const drawHolder = document.querySelector('[data-set="draw"]');
+
+		totalRoundHolder.textContent = numberOfRoundsPlayed;
+		drawHolder.textContent = numberOfDraws;
+	}
+
 	function displayInitialPlayerConfig(players) {
 		displayPlayerCardDetails(players);
 		displayPlayerTurnName(players);
 		displayScore(players);
-		displayRoundNumber(gameController.numberOfRoundsPlayed);
+		displayRoundNumber(gameController);
+		displayMatchStatistics(gameController);
 	}
 
 	return { renderGameBoard, displayInitialPlayerConfig };

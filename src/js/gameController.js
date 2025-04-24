@@ -9,6 +9,7 @@ import { gameBoard } from "./gameBoard.js";
 export const gameController = (function () {
 	const players = [];
 	let numberOfRoundsPlayed = 0;
+	let numberOfDraws = 0;
 	// player factory function with score and turn as private variables
 	function player(name, mark, turn) {
 		let score = 0;
@@ -159,5 +160,11 @@ export const gameController = (function () {
 		return "play";
 	}
 
-	return { initializeGame, playRound, players, numberOfRoundsPlayed };
+	return {
+		initializeGame,
+		playRound,
+		players,
+		numberOfRoundsPlayed,
+		numberOfDraws,
+	};
 })();
