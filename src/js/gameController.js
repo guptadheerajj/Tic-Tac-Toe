@@ -159,5 +159,5 @@ export const gameController = (function () {
 		return "play";
 	}
 
-	return { initializeGame, playRound, players };
+	return { initializeGame, playRound, players, numberOfRoundsPlayed };
 })();

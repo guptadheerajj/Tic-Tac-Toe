@@ -37,13 +37,13 @@ export const gameBoardPage = (function () {
 					<div class="player-info">
 						<img src="${playerIcon}" alt="Player icon">
 						<div>
-							<h3 class="heading-text"></h3>
-							<p class="normal-text"><span>Playing as </span> <img src=""
-									alt="" width="16" height="16"></p>
+							<h3 class="heading-text" data-set="player-name"></h3>
+							<p class="normal-text">Playing as <img src=""  alt=""
+									width="16" height="16" data-set="player-mark"></p>
 						</div>
 					</div>
 					<div class="player-score">
-						<h3 class="heading-text">2</h3>
+						<h3 class="heading-text" data-set="score"></h3>
 						<p class="normal-text">Score</p>
 					</div>
 				</div>
@@ -51,20 +51,20 @@ export const gameBoardPage = (function () {
 					<div class="player-info">
 						<img src="${playerIcon}" alt="Player icon">
 						<div>
-							<h3 class="heading-text"></h3>
+							<h3 class="heading-text" data-set="player-name"></h3>
 							<p class="normal-text">Playing as <img src="" alt=""
-									width="16" height="16"></p>
+									width="16" height="16" data-set="player-mark"></p>
 						</div>
 					</div>
 					<div class="player-score">
-						<h3 class="heading-text">3</h3>
+						<h3 class="heading-text" data-set="score"></h3>
 						<p class="normal-text">Score</p>
 					</div>
 				</div>
 			</div>
 			<div class="game-status">
-				<div class="round-display heading-text">Round <span>1</span></div>
-				<div class="turn-display normal-text"><span>Player 1</span>'s Turn</div>
+				<div class="round-display heading-text">Round <span data-set="round-number"></span></div>
+				<div class="turn-display normal-text"><span data-set="player-turn">Player 1</span>'s Turn</div>
 			</div>
 			<div class="game-grid">
 				<div class="grid-cell"><img src="" alt=""></div>
@@ -118,34 +118,54 @@ export const gameBoardPage = (function () {
 	}
 
 	function displayPlayerTurnName(players) {
-		const turnDisplay = document.querySelector(".turn-display > span");
-		for (let player of players) {
-			if (player.getTurn()) {
-				turnDisplay.textContent = player.name;
-				return;
-			}
+		const turnHolder = document.querySelector('span[data-set="player-turn"]');
+		const currentPlayer = players.find((player) => player.getTurn());
+		turnHolder.textContent = currentPlayer.name;
+	}
+
+	function displayScore(players) {
+		const scoreHolders = document.querySelectorAll('h3[data-set="score"]');
+		let count = 0;
+		for (let scoreHolder of scoreHolders) {
+			const score = players[count].getScore();
+			scoreHolder.textContent = score;
+			count++;
 		}
+	}
+
+	function displayRoundNumber(numberOfRoundsPlayed) {
+		const roundNumberHolder = document.querySelector(
+			'span[data-set="round-number"]'
+		);
+		const currentRoundNumber = numberOfRoundsPlayed + 1;
+		roundNumberHolder.textContent = currentRoundNumber;
+	}
+
+	function displayPlayerCardMark([{ mark: m1 }, { mark: m2 }]) {
+		const markHolders = document.querySelectorAll(
+			'img[data-set="player-mark"]'
+		);
+		markHolders[0].src = m1 === "x" ? xMarkIcon : oMarkIcon;
+		markHolders[1].src = m2 === "x" ? xMarkIcon : oMarkIcon;
+	}
+
+	function displayPlayerCardName([{ name: n1 }, { name: n2 }]) {
+		const nameHolders = document.querySelectorAll('h3[data-set="player-name"]');
+		nameHolders[0].textContent = n1;
+		nameHolders[1].textContent = n2;
+	}
+
+	function displayPlayerCardDetails(players) {
+		displayPlayerCardMark(players);
+		displayPlayerCardName(players);
 	}
 
 	function displayInitialPlayerConfig(players) {
-		const playerNameContainers = document.querySelectorAll(".player-info h3");
-		const playerMarkContairs = document.querySelectorAll(
-			".player-info div img"
-		);
-		const playerScoreContairs = document.querySelectorAll(".player-score h3");
-		const matchStatsValues = document.querySelectorAll(".match-stats-values");
-
-		for (let i = 0; i < players.length; i++) {
-			playerNameContainers[i].textContent = players[i].name;
-			playerMarkContairs[i].src =
-				players[i].mark === "x" ? xMarkIcon : oMarkIcon;
-			playerScoreContairs[i].textContent = "0";
-			matchStatsValues[i].textContent = "0";
-		}
+		displayPlayerCardDetails(players);
 		displayPlayerTurnName(players);
+		displayScore(players);
+		displayRoundNumber(gameController.numberOfRoundsPlayed);
 	}
-
-	// function updateScore
 
 	return { renderGameBoard, displayInitialPlayerConfig };
 })();
