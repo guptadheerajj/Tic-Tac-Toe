@@ -33,6 +33,11 @@ export const gameController = (function () {
 		};
 	}
 
+	function getCurrentPlayer() {
+		const currentPlayerIndex = players.findIndex((player) => player.getTurn());
+		return players[currentPlayerIndex];
+	}
+
 	function addPlayer(name, mark, turn) {
 		const playerObj = player(name, mark, turn);
 		players.push(playerObj);
@@ -118,6 +123,12 @@ export const gameController = (function () {
 		return false;
 	}
 
+	function resetTurnsPlayed() {
+		players.map((player) => {
+			player.turnsPlayed = 0;
+		});
+	}
+
 	function setFirstMove() {
 		if (numberOfRoundsPlayed % 2 === 0) {
 			if (!players[0].getTurn()) {
@@ -129,35 +140,46 @@ export const gameController = (function () {
 		}
 	}
 
+	function handleWin(currentPlayer) {
+		resetTurnsPlayed();
+		numberOfRoundsPlayed++;
+		// setFirstMove();
+		currentPlayer.incrementScore();
+		gameBoard.resetBoard();
+		console.log(
+			`Player with name ${currentPlayer.name} and mark ${currentPlayer.mark} WON the game.`
+		);
+	}
+
+	function handleDraw() {
+		resetTurnsPlayed();
+		numberOfRoundsPlayed++;
+		numberOfDraws++;
+		// setFirstMove();
+		gameBoard.resetBoard();
+		console.log("It's a Draw!");
+		return true;
+	}
+
 	function playRound(row, column) {
-		const playerTurn = players[0].getTurn() ? players[0] : players[1];
-		const markStatus = gameBoard.markCell(row, column, playerTurn.mark);
+		let isWin;
+		let isDraw = false;
+		const currentPlayer = getCurrentPlayer();
+		const markStatus = gameBoard.markCell(row, column, currentPlayer.mark);
 
 		if (markStatus) {
-			playerTurn.turnsPlayed++;
-			const isWin = checkWinCondition(playerTurn.mark);
+			currentPlayer.turnsPlayed++;
+			isWin = checkWinCondition(currentPlayer.mark);
 			if (isWin) {
-				numberOfRoundsPlayed++;
-				setFirstMove();
-				playerTurn.incrementScore();
-				gameBoard.resetBoard();
-				console.log(
-					`Player with name ${playerTurn.name} and mark ${playerTurn.mark} WON the game.`
-				);
-				return "win";
+				handleWin(currentPlayer);
+			} else if (currentPlayer.turnsPlayed === 5) {
+				isDraw = handleDraw();
 			}
-			if (playerTurn.turnsPlayed === 5) {
-				numberOfRoundsPlayed++;
-				setFirstMove();
-				gameBoard.resetBoard();
-				console.log("It's a Draw!");
-				return "draw";
-			}
-			players.map((eachPlayer) => {
-				eachPlayer.toggleTurn();
+			players.map((player) => {
+				player.toggleTurn();
 			});
 		}
-		return "play";
+		return { markStatus, isDraw, isWin };
 	}
 
 	return {
@@ -166,5 +188,6 @@ export const gameController = (function () {
 		players,
 		numberOfRoundsPlayed,
 		numberOfDraws,
+		getCurrentPlayer,
 	};
 })();

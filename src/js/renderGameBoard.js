@@ -66,16 +66,16 @@ export const gameBoardPage = (function () {
 				<div class="round-display heading-text">Round <span data-set="round-number"></span></div>
 				<div class="turn-display normal-text"><span data-set="player-turn">Player 1</span>'s Turn</div>
 			</div>
-			<div class="game-grid">
-				<div class="grid-cell"><img src="" alt=""></div>
-				<div class="grid-cell"><img src="" alt=""></div>
-				<div class="grid-cell"><img src="" alt=""></div>
-				<div class="grid-cell"><img src="" alt=""></div>
-				<div class="grid-cell"><img src="" alt=""></div>
-				<div class="grid-cell"><img src="" alt=""></div>
-				<div class="grid-cell"><img src="" alt=""></div>
-				<div class="grid-cell"><img src="" alt=""></div>
-				<div class="grid-cell"><img src="" alt=""></div>
+			<div class="game-grid" data-set="game-grid">
+				<div class="grid-cell" data-row="1" data-column="1" data-type="grid-cell"></div>
+				<div class="grid-cell" data-row="1" data-column="2" data-type="grid-cell"></div>
+				<div class="grid-cell" data-row="1" data-column="3" data-type="grid-cell"></div>
+				<div class="grid-cell" data-row="2" data-column="1" data-type="grid-cell"></div>
+				<div class="grid-cell" data-row="2" data-column="2" data-type="grid-cell"></div>
+				<div class="grid-cell" data-row="2" data-column="3" data-type="grid-cell"></div>
+				<div class="grid-cell" data-row="3" data-column="1" data-type="grid-cell"></div>
+				<div class="grid-cell" data-row="3" data-column="2" data-type="grid-cell"></div>
+				<div class="grid-cell" data-row="3" data-column="3" data-type="grid-cell"></div>
 			</div>
 			<button class="control-button score-reset-button">
 				<img src="${restartIcon}" alt="Restart icon">
@@ -104,7 +104,48 @@ export const gameBoardPage = (function () {
 		mainContainer.appendChild(gameBoardContainer);
 	}
 
-	function attachGameBoardListeners() {}
+	function attachGameBoardListeners() {
+		const gameGrid = document.querySelector('div[data-set="game-grid"]');
+		gameGrid.addEventListener("click", function (event) {
+			const targetCell = event.target.closest(".grid-cell");
+			if (!targetCell) return;
+			let targetRow = targetCell.dataset.row;
+			let targetColumn = targetCell.dataset.column;
+			let { mark: currentMark } = gameController.getCurrentPlayer();
+
+			let {
+				markStatus: isRoundPlayed,
+				isDraw,
+				isWin,
+			} = gameController.playRound(targetRow, targetColumn);
+			if (isRoundPlayed) displaymark(currentMark, targetCell);
+
+			if (isWin) {
+				alert("Someone won the game");
+				resetGridDisplay();
+				// displayGameStats();
+			}
+			if (isDraw) {
+				alert("Its a draw");
+				resetGridDisplay();
+				displayGameStats();
+			}
+		});
+
+		function resetGridDisplay() {
+			const gridCells = document.querySelectorAll('div[data-type="grid-cell"]');
+			gridCells.forEach((cell) => {
+				cell.innerHTML = "";
+			});
+		}
+
+		function displaymark(currentMark, targetCell) {
+			let markContainer = document.createElement("img");
+			markContainer.src = currentMark === "o" ? oMarkIcon : xMarkIcon;
+			targetCell.textContent = "";
+			targetCell.appendChild(markContainer);
+		}
+	}
 
 	function renderGameBoard() {
 		if (!isGameBoardRendered) {
@@ -117,10 +158,11 @@ export const gameBoardPage = (function () {
 		}
 	}
 
-	function displayPlayerTurnName(players) {
+	function displayPlayerTurnName() {
 		const turnHolder = document.querySelector('span[data-set="player-turn"]');
-		const currentPlayer = players.find((player) => player.getTurn());
-		turnHolder.textContent = currentPlayer.name;
+		const currentPayer = gameController.getCurrentPlayer();
+		const { name } = currentPayer;
+		turnHolder.textContent = name;
 	}
 
 	function displayScore(players) {
@@ -170,7 +212,11 @@ export const gameBoardPage = (function () {
 
 	function displayInitialPlayerConfig(players) {
 		displayPlayerCardDetails(players);
-		displayPlayerTurnName(players);
+		displayGameStats(players);
+	}
+
+	function displayGameStats(players) {
+		displayPlayerTurnName();
 		displayScore(players);
 		displayRoundNumber(gameController);
 		displayMatchStatistics(gameController);

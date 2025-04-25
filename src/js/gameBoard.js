@@ -13,7 +13,9 @@ export const gameBoard = (() => {
 		let mark = "0";
 
 		return {
-			addMark: (playerMark) => (mark = playerMark),
+			addMark: (playerMark) => {
+				mark = playerMark;
+			},
 			getMark: () => mark,
 		};
 	}
@@ -33,7 +35,6 @@ export const gameBoard = (() => {
 		const isCellAvailable = targetCell.getMark() === "0";
 		if (isCellAvailable) {
 			targetCell.addMark(playerMark);
-			return isCellAvailable;
 		}
 		return isCellAvailable;
 	};
