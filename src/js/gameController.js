@@ -183,11 +183,11 @@ export const gameController = (function () {
 	}
 
 	return {
+		players,
 		initializeGame,
 		playRound,
-		players,
-		numberOfRoundsPlayed,
-		numberOfDraws,
 		getCurrentPlayer,
+		getNumberOfDraws: () => numberOfDraws,
+		getNumberOfRoundsPlayed: () => numberOfRoundsPlayed,
 	};
 })();
