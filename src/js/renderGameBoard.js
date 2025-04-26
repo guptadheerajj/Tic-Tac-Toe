@@ -118,17 +118,20 @@ export const gameBoardPage = (function () {
 				isDraw,
 				isWin,
 			} = gameController.playRound(targetRow, targetColumn);
-			if (isRoundPlayed) displaymark(currentMark, targetCell);
+			if (isRoundPlayed) {
+				displayPlayerTurnName();
+				displayMark(currentMark, targetCell);
+			}
 
 			if (isWin) {
 				alert("Someone won the game");
 				resetGridDisplay();
-				// displayGameStats();
+				displayGameStats(gameController.players);
 			}
 			if (isDraw) {
 				alert("Its a draw");
 				resetGridDisplay();
-				displayGameStats();
+				displayGameStats(gameController.players);
 			}
 		});
 
@@ -139,7 +142,7 @@ export const gameBoardPage = (function () {
 			});
 		}
 
-		function displaymark(currentMark, targetCell) {
+		function displayMark(currentMark, targetCell) {
 			let markContainer = document.createElement("img");
 			markContainer.src = currentMark === "o" ? oMarkIcon : xMarkIcon;
 			targetCell.textContent = "";
