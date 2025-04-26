@@ -18,15 +18,15 @@ export const gameBoardPage = (function () {
 		const gameBoardContent = `
 			<nav class="game-controls">
 				<div class="controls-left">
-					<button class="control-button">
+					<button class="control-button" data-buttonType="quitGame">
 						<img src="${arrowLeftIcon}" alt="Back arrow">
 						<p>Quit Game</p>
 					</button>
 				</div>
 				<div class="controls-right">
-					<button class="control-button volume"><img src="${volumeIcon}"
+					<button class="control-button volume" data-buttonType="volume"><img src="${volumeIcon}"
 							alt="mute-button-icon"></button>
-					<button class="control-button">
+					<button class="control-button" data-buttonType="restartGame">
 						<img src="${restartIcon}" alt="Restart icon">
 						<p>Restart Game</p>
 					</button>
@@ -77,7 +77,7 @@ export const gameBoardPage = (function () {
 				<div class="grid-cell" data-row="3" data-column="2" data-type="grid-cell"></div>
 				<div class="grid-cell" data-row="3" data-column="3" data-type="grid-cell"></div>
 			</div>
-			<button class="control-button score-reset-button">
+			<button class="control-button score-reset-button" data-buttonType="resetScore">
 				<img src="${restartIcon}" alt="Restart icon">
 				<p>Reset Score</p>
 			</button>
@@ -122,16 +122,19 @@ export const gameBoardPage = (function () {
 				displayPlayerTurnName();
 				displayMark(currentMark, targetCell);
 			}
-
-			if (isWin) {
-				alert("Someone won the game");
-				resetGridDisplay();
-				displayGameStats(gameController.players);
-			}
-			if (isDraw) {
-				alert("Its a draw");
-				resetGridDisplay();
-				displayGameStats(gameController.players);
+			if (isWin || isDraw) {
+				setTimeout(() => {
+					if (isWin) {
+						const { name, mark } = gameController.getCurrentPlayer();
+						alert(
+							`Player with name \"${name}\" and mark \"${mark}\" WON the game.`
+						);
+					} else if (isDraw) {
+						alert("It's Draw!");
+					}
+					resetGridDisplay();
+					displayGameStats(gameController.players);
+				}, 50);
 			}
 		});
 

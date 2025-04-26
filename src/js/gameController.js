@@ -129,40 +129,30 @@ export const gameController = (function () {
 		});
 	}
 
-	function setFirstMove() {
-		if (numberOfRoundsPlayed % 2 === 0) {
-			if (!players[0].getTurn()) {
-				players[0].toggleTurn();
-			}
-		}
-		if (!players[1].getTurn()) {
-			players[1].toggleTurn();
-		}
-	}
-
 	function handleWin(currentPlayer) {
 		resetTurnsPlayed();
 		numberOfRoundsPlayed++;
-		// setFirstMove();
 		currentPlayer.incrementScore();
 		gameBoard.resetBoard();
-		console.log(
-			`Player with name ${currentPlayer.name} and mark ${currentPlayer.mark} WON the game.`
-		);
 	}
 
 	function handleDraw() {
 		resetTurnsPlayed();
 		numberOfRoundsPlayed++;
 		numberOfDraws++;
-		// setFirstMove();
 		gameBoard.resetBoard();
 		console.log("It's a Draw!");
 		return true;
 	}
 
+	function reverseTurn() {
+		players.map((player) => {
+			player.toggleTurn();
+		});
+	}
+
 	function playRound(row, column) {
-		let isWin;
+		let isWin = null;
 		let isDraw = false;
 		const currentPlayer = getCurrentPlayer();
 		const markStatus = gameBoard.markCell(row, column, currentPlayer.mark);
@@ -175,9 +165,10 @@ export const gameController = (function () {
 			} else if (currentPlayer.turnsPlayed === 5) {
 				isDraw = handleDraw();
 			}
-			players.map((player) => {
-				player.toggleTurn();
-			});
+
+			if (!isWin) {
+				reverseTurn();
+			}
 		}
 		return { markStatus, isDraw, isWin };
 	}
