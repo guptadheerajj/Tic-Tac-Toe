@@ -6,8 +6,6 @@ import gameControllerIcon from "../assets/images/icons/controller-icon.svg";
 import playerIcon from "../assets/images/icons/player-icon.svg";
 
 export const gameSetupPage = (() => {
-	let eventListenersAttached = false;
-	let gameSetupRendered = false;
 	function createGameSetupUI() {
 		const mainContainer = document.querySelector("#main-container");
 		const gameSetupContainer = document.createElement("div");
@@ -77,6 +75,7 @@ export const gameSetupPage = (() => {
 		`;
 
 		gameSetupContainer.innerHTML = gameSetupContent;
+		mainContainer.innerHTML = "";
 		mainContainer.appendChild(gameSetupContainer);
 	}
 
@@ -139,28 +138,26 @@ export const gameSetupPage = (() => {
 	}
 
 	function attachGameStartListener() {
-		const startGameButton = document.querySelector(
+		document.addEventListener("click", handleNewGameEvent);
+	}
+
+	function handleNewGameEvent(event) {
+		const startGameButton = event.target.closest(
 			"form > button[type='submit']"
 		);
-		startGameButton.addEventListener("click", (event) => {
-			event.preventDefault();
-			const gameConfig = createGameConfig();
-			gameController.initializeGame(gameConfig);
-			gameBoardPage.renderGameBoard();
-			gameBoardPage.displayInitialPlayerConfig(gameController.players);
-			scrollToTop();
-		});
+		if (!startGameButton) return;
+		event.preventDefault();
+		const gameConfig = createGameConfig();
+		gameController.initializeGame(gameConfig);
+		document.removeEventListener("click", handleNewGameEvent);
+		gameBoardPage.renderGameBoard();
+		gameBoardPage.displayInitialPlayerConfig(gameController.players);
+		scrollToTop();
 	}
 
 	function renderGameSetup() {
-		if (!gameSetupRendered) {
-			createGameSetupUI();
-			gameSetupRendered = true;
-		}
-		if (!eventListenersAttached) {
-			attachGameStartListener();
-			eventListenersAttached = true;
-		}
+		createGameSetupUI();
+		attachGameStartListener();
 	}
 
 	return {

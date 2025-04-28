@@ -4,8 +4,8 @@
 	outline: 2px solid red;
 } */
 
-#main-container {
-	/* background-color: #8a6fe6; */
+[data-button-type] {
+	cursor: pointer;
 }
 
 .game-board-container {

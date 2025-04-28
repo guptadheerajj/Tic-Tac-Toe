@@ -6,10 +6,9 @@ import oMarkIcon from "../assets/images/icons/o-mark.svg";
 import xMarkIcon from "../assets/images/icons/x-mark.svg";
 import trophyIcon from "../assets/images/icons/trophy-icon.svg";
 import { gameController } from "./gameController";
+import { gameSetupPage } from "./renderGameSetup";
 
 export const gameBoardPage = (function () {
-	let isEventListenersAttached = false;
-	let isGameBoardRendered = false;
 	function createGameBoardUI() {
 		const mainContainer = document.querySelector("#main-container");
 		const gameBoardContainer = document.createElement("div");
@@ -18,15 +17,15 @@ export const gameBoardPage = (function () {
 		const gameBoardContent = `
 			<nav class="game-controls">
 				<div class="controls-left">
-					<button class="control-button" data-buttonType="quitGame">
+					<button class="control-button" data-button-type="quitGame">
 						<img src="${arrowLeftIcon}" alt="Back arrow">
 						<p>Quit Game</p>
 					</button>
 				</div>
 				<div class="controls-right">
-					<button class="control-button volume" data-buttonType="volume"><img src="${volumeIcon}"
+					<button class="control-button volume" data-button-type="volume"><img src="${volumeIcon}"
 							alt="mute-button-icon"></button>
-					<button class="control-button" data-buttonType="restartGame">
+					<button class="control-button" data-button-type="restartGame">
 						<img src="${restartIcon}" alt="Restart icon">
 						<p>Restart Game</p>
 					</button>
@@ -77,7 +76,7 @@ export const gameBoardPage = (function () {
 				<div class="grid-cell" data-row="3" data-column="2" data-type="grid-cell"></div>
 				<div class="grid-cell" data-row="3" data-column="3" data-type="grid-cell"></div>
 			</div>
-			<button class="control-button score-reset-button" data-buttonType="resetScore">
+			<button class="control-button score-reset-button" data-button-type="resetScore">
 				<img src="${restartIcon}" alt="Restart icon">
 				<p>Reset Score</p>
 			</button>
@@ -105,8 +104,18 @@ export const gameBoardPage = (function () {
 	}
 
 	function attachGameBoardListeners() {
-		const gameGrid = document.querySelector('div[data-set="game-grid"]');
-		gameGrid.addEventListener("click", function (event) {
+		document.addEventListener("click", handleGameBoardDocumentEvents);
+		function handleGameBoardDocumentEvents(event) {
+			if (event.target.closest(".game-grid")) {
+				handleGridEvents(event);
+			} else if (event.target.closest("[data-button-type]")) {
+				handleButtonClickEvents(event);
+			} else {
+				return;
+			}
+		}
+
+		function handleGridEvents(event) {
 			const targetCell = event.target.closest(".grid-cell");
 			if (!targetCell) return;
 			let targetRow = targetCell.dataset.row;
@@ -136,7 +145,24 @@ export const gameBoardPage = (function () {
 					displayGameStats(gameController.players);
 				}, 50);
 			}
-		});
+		}
+
+		function handleButtonClickEvents(event) {
+			let clickedButton = event.target.closest("[data-button-type]");
+			if (!clickedButton) return;
+
+			const buttonType = clickedButton.dataset.buttonType;
+			const buttonActions = {
+				quitGame,
+				volume: toggleVolume,
+				restartGame,
+				resetScore,
+			};
+
+			if (buttonActions[buttonType]) {
+				buttonActions[buttonType]();
+			}
+		}
 
 		function resetGridDisplay() {
 			const gridCells = document.querySelectorAll('div[data-type="grid-cell"]');
@@ -151,17 +177,27 @@ export const gameBoardPage = (function () {
 			targetCell.textContent = "";
 			targetCell.appendChild(markContainer);
 		}
+
+		function quitGame() {
+			gameController.players.length = 0;
+			gameController.resetMatchStats();
+			gameSetupPage.renderGameSetup();
+
+			document.removeEventListener("click", handleGameBoardDocumentEvents);
+			window.scrollTo({
+				left: 0,
+				top: 0,
+				behavior: "smooth",
+			});
+		}
+		function toggleVolume() {}
+		function restartGame() {}
+		function resetScore() {}
 	}
 
 	function renderGameBoard() {
-		if (!isGameBoardRendered) {
-			createGameBoardUI();
-			isGameBoardRendered = true;
-		}
-		if (!isEventListenersAttached) {
-			attachGameBoardListeners();
-			isEventListenersAttached = true;
-		}
+		createGameBoardUI();
+		attachGameBoardListeners();
 	}
 
 	function displayPlayerTurnName() {

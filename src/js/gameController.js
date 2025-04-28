@@ -151,6 +151,11 @@ export const gameController = (function () {
 		});
 	}
 
+	function resetMatchStats() {
+		numberOfDraws = 0;
+		numberOfRoundsPlayed = 0;
+	}
+
 	function playRound(row, column) {
 		let isWin = null;
 		let isDraw = false;
@@ -158,6 +163,7 @@ export const gameController = (function () {
 		const markStatus = gameBoard.markCell(row, column, currentPlayer.mark);
 
 		if (markStatus) {
+			gameBoard.printBoard();
 			currentPlayer.turnsPlayed++;
 			isWin = checkWinCondition(currentPlayer.mark);
 			if (isWin) {
@@ -178,6 +184,7 @@ export const gameController = (function () {
 		initializeGame,
 		playRound,
 		getCurrentPlayer,
+		resetMatchStats,
 		getNumberOfDraws: () => numberOfDraws,
 		getNumberOfRoundsPlayed: () => numberOfRoundsPlayed,
 	};
