@@ -4,6 +4,8 @@ import oMarkIcon from "../assets/images/icons/o-mark.svg";
 import xMarkIcon from "../assets/images/icons/x-mark.svg";
 import gameControllerIcon from "../assets/images/icons/controller-icon.svg";
 import playerIcon from "../assets/images/icons/player-icon.svg";
+// Import the sound file with webpack
+import startSound from "../assets/audio/war-coc.mp3";
 
 export const gameSetupPage = (() => {
 	function createGameSetupUI() {
@@ -147,6 +149,15 @@ export const gameSetupPage = (() => {
 		);
 		if (!startGameButton) return;
 		event.preventDefault();
+
+		// Play sound effect when start button is clicked
+		try {
+			const sound = new Audio(startSound);
+			sound.play().catch((err) => console.log("Audio playback error:", err));
+		} catch (error) {
+			console.error("Error playing sound:", error);
+		}
+
 		const gameConfig = createGameConfig();
 		gameController.initializeGame(gameConfig);
 		document.removeEventListener("click", handleNewGameEvent);

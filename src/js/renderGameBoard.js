@@ -5,6 +5,7 @@ import playerIcon from "../assets/images/icons/player-icon.svg";
 import oMarkIcon from "../assets/images/icons/o-mark.svg";
 import xMarkIcon from "../assets/images/icons/x-mark.svg";
 import trophyIcon from "../assets/images/icons/trophy-icon.svg";
+import badMoveSound from "../assets/audio/bad-move-coc.mp3";
 import { gameController } from "./gameController";
 import { gameSetupPage } from "./renderGameSetup";
 
@@ -118,6 +119,15 @@ export const gameBoardPage = (function () {
 		function handleGridEvents(event) {
 			const targetCell = event.target.closest(".grid-cell");
 			if (!targetCell) return;
+
+			// Play the bad move sound when a grid cell is clicked
+			try {
+				const sound = new Audio(badMoveSound);
+				sound.play().catch((err) => console.log("Audio playback error:", err));
+			} catch (error) {
+				console.error("Error playing sound:", error);
+			}
+
 			let targetRow = targetCell.dataset.row;
 			let targetColumn = targetCell.dataset.column;
 			let { mark: currentMark } = gameController.getCurrentPlayer();

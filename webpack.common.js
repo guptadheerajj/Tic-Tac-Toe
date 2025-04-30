@@ -31,6 +31,10 @@ module.exports = {
 				test: /\.woff2$/i,
 				type: "asset/resource",
 			},
+			{
+				test: /\.(mp3|wav)$/i,
+				type: "asset/resource",
+			},
 		],
 	},
 };
