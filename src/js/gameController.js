@@ -11,35 +11,62 @@ export const gameController = (function () {
 	let numberOfRoundsPlayed = 0;
 	let numberOfDraws = 0;
 	// player factory function with score and turn as private variables
-	function player(name, mark, turn) {
-		let score = 0;
-		let turnsPlayed = 0;
+	// function player(name, mark, turn) {
+	// 	let score = 0;
+	// 	let turnsPlayed = 0;
 
-		return {
-			name,
-			mark,
-			turnsPlayed,
-			getScore: () => score,
-			getTurn: () => turn,
-			incrementScore: () => {
-				score++;
-			},
-			resetScore: () => {
-				score = 0;
-			},
-			toggleTurn: () => {
-				turn = !turn;
-			},
-		};
+	// 	return {
+	// 		name,
+	// 		mark,
+	// 		turnsPlayed,
+	// 		getScore: () => score,
+	// 		getTurn: () => turn,
+	// 		incrementScore: () => {
+	// 			score++;
+	// 		},
+	// 		resetScore: () => {
+	// 			score = 0;
+	// 		},
+	// 		toggleTurn: () => {
+	// 			turn = !turn;
+	// 		},
+	// 	};
+	// }
+
+	// converting player factory function to class
+	class Player {
+		#score = 0;
+		#turn;
+		turnsPlayed = 0;
+		constructor(name, mark, turn) {
+			this.#turn = turn;
+			this.name = name;
+			this.mark = mark;
+		}
+		get score() {
+			return this.#score;
+		}
+		get turn() {
+			return this.#turn;
+		}
+		incrementScore() {
+			this.#score++;
+		}
+		resetScore() {
+			this.#score = 0;
+		}
+		toggleTurn() {
+			this.#turn = !this.#turn;
+		}
 	}
 
 	function getCurrentPlayer() {
-		const currentPlayerIndex = players.findIndex((player) => player.getTurn());
+		const currentPlayerIndex = players.findIndex((player) => player.turn);
 		return players[currentPlayerIndex];
 	}
 
 	function addPlayer(name, mark, turn) {
-		const playerObj = player(name, mark, turn);
+		const playerObj = new Player(name, mark, turn);
 		players.push(playerObj);
 	}
 

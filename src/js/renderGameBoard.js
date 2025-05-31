@@ -221,7 +221,7 @@ export const gameBoardPage = (function () {
 		const scoreHolders = document.querySelectorAll('h3[data-set="score"]');
 		let count = 0;
 		for (let scoreHolder of scoreHolders) {
-			const score = players[count].getScore();
+			const score = players[count].score;
 			scoreHolder.textContent = score;
 			count++;
 		}
